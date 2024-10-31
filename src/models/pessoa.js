@@ -4,6 +4,7 @@ class ModelPessoa {
     constructor() {
         this.model = database.db.define('pessoas', {
             id: {
+                //type: Tipo
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true

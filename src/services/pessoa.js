@@ -5,17 +5,47 @@ class ServicePessoa {
     async GetPessoas() {
         return ModelPessoa.findAll()
     }
-    CreatePessoa(name) {
+    async CreatePessoa(name, password, email) {
+        //vinicius
+        //indefined: indefinido
+        //if(name === undefined)
+        if (!name || !password || !email) {
+            throw new Error("Favor preecher todos os dados!")
+        } 
         // fazer verificações - se mandou o name
-        return ModelPessoa.CreatePessoa(name)
+        return ModelPessoa.create({ name, password, email })
     }
-    UpdatePessoa(id, name) {
+    async UpdatePessoa(id, name, password, email) {
         // fazer verificações - se mandou o id e o name
-        return ModelPessoa.UpdatePessoa(id, name)
+
+        // return ModelPessoa.update({ name, password, email },
+        //      { where: { id } })
+        if(!id) {
+            throw new Error("Pessoa não encontrada")
+        }
+        const pessoa = await ModelPessoa.findByPk(id)
+        if(!pessoa) {
+            throw new Error("Pessoa não encontrada")
+        }
+        pessoa.name = name || pessoa.name
+        pessoa.password = password || pessoa.password
+        pessoa.email = email || pessoa.email
+
+        pessoa.save()
+        return pessoa
     }
-    DeletePessoa(id) {
+    
+    async DeletePessoa(id) {
         // fazer verificações - se mandou o id
-        return ModelPessoa.DeletePessoa(id)
+        if(!id) {
+            throw new Error("favor informar Id")
+        }
+        const pessoa = await ModelPessoa.findByPk(id)
+        if(!pessoa) {
+            throw new Error("Pessoa não encontrada")
+        }
+        // 
+        return pessoa.destroy()
     }
 }
 module.exports = new ServicePessoa()
