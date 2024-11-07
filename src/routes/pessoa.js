@@ -5,10 +5,11 @@ const ControllerPessoa = require('../controllers/pessoa')
 const router = express.Router()
 
 //Crando as rotas
-router.get('/', ControllerPessoa.GetPessoas)
 router.post('/', ControllerPessoa.CreatePessoa)
-router.put('/:id', ControllerPessoa.UpdatePessoa)
-router.delete('/:id', ControllerPessoa.DeletePessoa)
+
+router.get('/', auth, ControllerPessoa.GetPessoas)
+router.put('/:id', auth, ControllerPessoa.UpdatePessoa)
+router.delete('/:id', auth, ControllerPessoa.DeletePessoa)
 
 //Exportar as rotas
 module.exports = router

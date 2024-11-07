@@ -1,19 +1,20 @@
 const ModelPessoa = require ('../models/pessoa')
+const bcrypt = require ('bcrypt')
+
+const SALT = 12
 
 //criando a classe servicePessoa
 class ServicePessoa {
     async GetPessoas() {
         return ModelPessoa.findAll()
     }
+     
     async CreatePessoa(name, password, email) {
-        //vinicius
-        //indefined: indefinido
-        //if(name === undefined)
         if (!name || !password || !email) {
             throw new Error("Favor preecher todos os dados!")
         } 
-        // fazer verificações - se mandou o name
-        return ModelPessoa.create({ name, password, email })
+        const hashSenha = await bcrypt.hash(password, SALT)
+        return ModelPessoa.create({ name, password: hashSenha, email })
     }
     async UpdatePessoa(id, name, password, email) {
         // fazer verificações - se mandou o id e o name
